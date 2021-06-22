@@ -286,10 +286,10 @@ export default function Urgent() {
       {showOutput &&
         (destroyedMessage === "Message destroyed!" ? (
           <h5 className="text-center mt-5">
-            Message Destroyed! (well, moved to the "Read Messages" table :-D)
+            Message Destroyed! (well, moved to the "Read Messages" table)
           </h5>
         ) : (
-          <div>
+          <div className='text-center'>
             <div className="m-5">
               <h5>Agent ID: {responseMessage.agent_id}</h5>
               <h5>Structure ID: {responseMessage.structure_id}</h5>
