@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 import Agent from './components/Agent';
 import Admin from './components/Admin';
@@ -13,8 +13,10 @@ function App() {
     
   return (
       <>
-      <Header></Header>
+      
       <Router>
+      <Link to='/' className='btn btn-primary'>Main</Link>
+          <Header></Header>
           <div>
               <Switch>
                 <Route path="/" exact component={Login}/>
