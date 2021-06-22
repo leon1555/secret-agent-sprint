@@ -15,7 +15,7 @@ function App() {
       <>
       
       <Router>
-      <Link to='/' className='btn btn-primary'>Main</Link>
+      <Link to='/' className='btn btn-primary m-3'>Main</Link>
           <Header></Header>
           <div>
               <Switch>
