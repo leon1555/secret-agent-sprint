@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
 export default function Admin() {
-    
+
   const [output, setOutput] = useState(<div></div>);
   const [agentId, setAgentId] = useState(86);
   const [structureId, setStructureId] = useState(1);
 
-  // Retrieve all messages (from stack and queue) (activated from Main Menu)
+  // Retrieve all messages (from stack and queue) (activated from button in Main Menu)
   async function getAllMessages() {
     try {
       const response = await fetch("http://localhost:5001/messages");
@@ -111,7 +111,8 @@ export default function Admin() {
     }
   }
 
-  // get "destroyed messages (already read)
+  // get "destroyed" messages (really, messages that have already been read and moved to the "read_messages" table)
+  // (activated from button in main menu)
   async function getMessagesRead() {
     try {
       const response = await fetch("http://localhost:5001/messages/read");

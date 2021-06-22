@@ -4,7 +4,6 @@ export default function Urgent() {
   let d = new Date();
   let dString = d.toISOString();
 
-  //   const [showInput, setShowInput] = useState(false);
   const [showOutput, setShowOutput] = useState(false);
   const [input, setInput] = useState(<div></div>);
   const [destroyedMessage, setDestroyedMessage] = useState("");
@@ -15,8 +14,8 @@ export default function Urgent() {
 
   function composeMessage() {
     setShowOutput(false);
-    // setShowInput(true);
-    // RADIO HANDLERS
+
+    // RADIO BUTTON SELECTION HANDLERS
     function radioHandlerStructure(e) {
       setStructureId(e.target.value);
     }
@@ -25,6 +24,7 @@ export default function Urgent() {
       setAgentId(e.target.value);
     }
 
+    // The following is rendered when the "Compose Message" button is clicked
     setInput(
       <>
         {/* AGENT ID RADIO SELECTORS */}
@@ -179,13 +179,8 @@ export default function Urgent() {
           <button
             className="btn btn-success mt-5"
             onClick={(evt) =>
-                sendMessage(
-                  evt,
-                  agentId,
-                  structureId,
-                  secretMessage
-                )
-              }
+              sendMessage(evt, agentId, structureId, secretMessage)
+            }
           >
             Send Message
           </button>
@@ -226,7 +221,7 @@ export default function Urgent() {
     create_date
   ) {
     e.preventDefault();
-    // an initial fetch call to the displayed message to copy it to the 'destroyed' messages table before deletion from the stack table.
+    // the initial fetch posts the displayed message to the 'read_messages' table before the second fetch deletes the message from the stack table.
     try {
       const destroyedTableResponse = await fetch(
         "http://localhost:5001/messages/destroyed",
@@ -263,7 +258,6 @@ export default function Urgent() {
 
   async function readMessage() {
     try {
-      // setShowInput(false);
       setInput("");
       const response = await fetch("http://localhost:5001/messages/urgent");
       let messageArray = await response.json();

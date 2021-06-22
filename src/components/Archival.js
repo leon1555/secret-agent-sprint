@@ -4,7 +4,6 @@ export default function Archival() {
   let d = new Date();
   let dString = d.toISOString();
 
-  //   const [showInput, setShowInput] = useState(false);
   const [showOutput, setShowOutput] = useState(false);
   const [input, setInput] = useState(<div></div>);
   const [destroyedMessage, setDestroyedMessage] = useState(<div></div>);
@@ -15,16 +14,16 @@ export default function Archival() {
 
   function composeMessage() {
     setShowOutput(false);
-    // setShowInput(true);
-    // RADIO HANDLERS
+
+    // RADIO BUTTON SELECTION HANDLERS
     function radioHandlerStructure(e) {
       setStructureId(e.target.value);
     }
-
     function radioHandlerAgent(e) {
       setAgentId(e.target.value);
     }
 
+    // The following is rendered when the "Compose Message" button is clicked
     setInput(
       <>
         {/* AGENT ID RADIO SELECTORS */}
@@ -165,6 +164,7 @@ export default function Archival() {
             </label>
           </div>
         </div>
+
         {/* MESSAGE FIELD */}
         <div className="text-center mt-4">
           <h5>Message:</h5>
@@ -176,16 +176,12 @@ export default function Archival() {
           ></input>
         </div>
         <div className="text-center">
+
           <button
             className="btn btn-success mt-5"
             onClick={(evt) =>
-                sendMessage(
-                  evt,
-                  agentId,
-                  structureId,
-                  secretMessage
-                )
-              }
+              sendMessage(evt, agentId, structureId, secretMessage)
+            }
           >
             Send Message
           </button>
@@ -226,7 +222,7 @@ export default function Archival() {
     create_date
   ) {
     e.preventDefault();
-    // an initial fetch call to the displayed message to copy it to the 'destroyed' messages table before deletion from the stack table.
+    // the initial fetch posts the displayed message to the 'read_messages' table before the second fetch deletes the message from the queue table.
     try {
       const destroyedTableResponse = await fetch(
         "http://localhost:5001/messages/destroyed",
@@ -263,7 +259,6 @@ export default function Archival() {
 
   async function readMessage() {
     try {
-      // setShowInput(false);
       setInput(<div></div>);
       const response = await fetch("http://localhost:5001/messages/archival");
       let messageArray = await response.json();
@@ -289,6 +284,7 @@ export default function Archival() {
         </button>
       </div>
       <div>{input}</div>
+      {/* The following is rendered only after the "Read Message" button has been clicked */}
       {showOutput &&
         (destroyedMessage === "Message destroyed!" ? (
           <h5 className="text-center mt-5">
@@ -321,4 +317,3 @@ export default function Archival() {
     </div>
   );
 }
-
