@@ -16,17 +16,21 @@ app.get('/', (request, response) => {
 });
 
 app.get('/messages', db.getAllMessages);
-app.get('/messages/:agent_id', db.getMessagesByAgent);
-app.get('/messages/read/:read_agent_id', db.getMessagesReadByAgent);
+app.get('/messages/agent/:agent_id', db.getMessagesByAgent);
+app.get('/messages/read', db.getMessagesRead);
 app.get('/messages/structure/:structure_id', db.getMessagesByDeadDrop);
-app.post('/messages/urgent', db.createUrgentMessage);
-app.post('/messages/archival', db.createArchivalMessage);
+app.get('/messages/urgent', db.getUrgentMessage);
+app.get('/messages/archival', db.getArchivalMessage);
+
+app.post('/messages/urgent/compose', db.createUrgentMessage);
+app.post('/messages/archival/compose', db.createArchivalMessage);
+app.post('/messages/destroyed', db.addDestroyedMessage);
+
 app.put('/messages/urgent/:log_id', db.retrievalStampUrgent);
-app.delete('/messages/urgent/:log_id', db.deleteMessageUrgent);
-app.put('/messages/urgent/writeover/:log_id', db.writeOverMessageUrgent);
 app.put('/messages/archival/:log_id', db.retrievalStampArchival);
+
+app.delete('/messages/urgent/:log_id', db.deleteMessageUrgent);
 app.delete('/messages/archival/:log_id', db.deleteMessageArchival);
-app.put('/messages/archival/writeover/:log_id', db.writeOverMessageArchival);
 
 app.listen(port, ()=> {
     console.log(`App running on port ${port}.`)
