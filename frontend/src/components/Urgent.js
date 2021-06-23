@@ -5,32 +5,26 @@ export default function Urgent() {
   let dString = d.toISOString();
 
   const [showOutput, setShowOutput] = useState(false);
-  const [input, setInput] = useState(<div></div>);
+  const [showInput, setShowInput] = useState(false);
   const [destroyedMessage, setDestroyedMessage] = useState("");
   const [agentId, setAgentId] = useState(99);
   const [structureId, setStructureId] = useState(1);
   const [responseMessage, setResponseMessage] = useState("");
   const [secretMessage, setSecretMessage] = useState("RED RUM");
 
-  function composeMessage() {
-    setShowOutput(false);
+  // RADIO BUTTON SELECTION HANDLERS
+  function radioHandlerStructure(e) {
+    setStructureId(e.target.value);
+  }
 
-    // RADIO BUTTON SELECTION HANDLERS
-    function radioHandlerStructure(e) {
-      setStructureId(e.target.value);
-    }
+  function radioHandlerAgent(e) {
+    setAgentId(e.target.value);
+  }
 
-    function radioHandlerAgent(e) {
-      setAgentId(e.target.value);
-    }
-
-    // The following is rendered when the "Compose Message" button is clicked
-    setInput(
-      <>
+   const INPUT_HTML =  <>
         {/* AGENT ID RADIO SELECTORS */}
         <div
           className="radio-form text-center mt-5"
-          onChange={radioHandlerAgent}
         >
           <h5>Which is your agent ID?</h5>
           <div className="form-check form-check-inline">
@@ -39,9 +33,10 @@ export default function Urgent() {
               value="7"
               name="agent-id"
               className="form-check-input"
+              onClick={radioHandlerAgent}
               id="radioA"
             />
-            <label className="form-check-label" for="radioA">
+            <label className="form-check-label" htmlFor="radioA">
               7
             </label>
           </div>
@@ -50,10 +45,11 @@ export default function Urgent() {
               type="radio"
               value="8"
               name="agent-id"
+              onClick={radioHandlerAgent}
               className="form-check-input"
               id="radioB"
             />
-            <label className="form-check-label" for="radioB">
+            <label className="form-check-label" htmlFor="radioB">
               8
             </label>
           </div>
@@ -63,9 +59,10 @@ export default function Urgent() {
               value="24"
               name="agent-id"
               className="form-check-input"
+              onClick={radioHandlerAgent}
               id="radioC"
             />
-            <label className="form-check-label" for="radioC">
+            <label className="form-check-label" htmlFor="radioC">
               24
             </label>
           </div>
@@ -74,10 +71,11 @@ export default function Urgent() {
               type="radio"
               value="86"
               name="agent-id"
+              onClick={radioHandlerAgent}
               className="form-check-input"
               id="radioD"
             />
-            <label className="form-check-label" for="radioD">
+            <label className="form-check-label" htmlFor="radioD">
               86
             </label>
           </div>
@@ -86,10 +84,11 @@ export default function Urgent() {
               type="radio"
               value="99"
               name="agent-id"
+              onClick={radioHandlerAgent}
               className="form-check-input"
               id="radioE"
             />
-            <label className="form-check-label" for="radioE">
+            <label className="form-check-label" htmlFor="radioE">
               99
             </label>
           </div>
@@ -98,7 +97,6 @@ export default function Urgent() {
         {/* STRUCTURE ID RADIO SELECTORS */}
         <div
           className="radio-form text-center mt-4"
-          onChange={radioHandlerStructure}
         >
           <h5>
             Select the ID of the structure into which you want to drop the
@@ -109,10 +107,11 @@ export default function Urgent() {
               type="radio"
               value="1"
               name="structure-id"
+              onClick={radioHandlerStructure}
               className="form-check-input"
               id="radio1"
             />
-            <label className="form-check-label" for="radio1">
+            <label className="form-check-label" htmlFor="radio1">
               1
             </label>
           </div>
@@ -121,10 +120,11 @@ export default function Urgent() {
               type="radio"
               value="2"
               name="structure-id"
+              onClick={radioHandlerStructure}
               className="form-check-input"
               id="radio2"
             />
-            <label className="form-check-label" for="radio2">
+            <label className="form-check-label" htmlFor="radio2">
               2
             </label>
           </div>
@@ -132,11 +132,12 @@ export default function Urgent() {
             <input
               type="radio"
               value="3"
+              onClick={radioHandlerStructure}
               name="structure-id"
               className="form-check-input"
               id="radio3"
             />
-            <label className="form-check-label" for="radio3">
+            <label className="form-check-label" htmlFor="radio3">
               3
             </label>
           </div>
@@ -145,10 +146,11 @@ export default function Urgent() {
               type="radio"
               value="4"
               name="structure-id"
+              onClick={radioHandlerStructure}
               className="form-check-input"
               id="radio4"
             />
-            <label className="form-check-label" for="radio4">
+            <label className="form-check-label" htmlFor="radio4">
               4
             </label>
           </div>
@@ -157,10 +159,11 @@ export default function Urgent() {
               type="radio"
               value="5"
               name="structure-id"
+              onClick={radioHandlerStructure}
               className="form-check-input"
               id="radio5"
             />
-            <label className="form-check-label" for="radio5">
+            <label className="form-check-label" htmlFor="radio5">
               5
             </label>
           </div>
@@ -172,6 +175,7 @@ export default function Urgent() {
             type="text"
             size="70"
             id="message-text"
+            onChange={(e)=>setSecretMessage(e.target.value)}
             placeholder="Message text"
           ></input>
         </div>
@@ -185,11 +189,17 @@ export default function Urgent() {
             Send Message
           </button>
         </div>
-      </>
-    );
+      </>;
+
+  function composeMessage(evt){
+    evt.preventDefault();
+    setShowOutput(false);
+
+    // The following is rendered when the "Compose Message" button is clicked 
+    setShowInput(true);
   }
 
-  async function sendMessage(evt, agent_id, structure_id, message) {
+  async function sendMessage(evt, agent_id, structure_id, message){
     evt.preventDefault();
     console.log("structure id: ", structureId);
     console.log("agent id: ", agentId);
@@ -258,7 +268,7 @@ export default function Urgent() {
 
   async function readMessage() {
     try {
-      setInput("");
+      setShowInput(false);
       const response = await fetch("http://localhost:5001/messages/urgent");
       let messageArray = await response.json();
       console.log(messageArray);
@@ -269,7 +279,6 @@ export default function Urgent() {
       console.error(error.message);
     }
   }
-
   return (
     <div>
       <h2 className="text-center mt-4">AGENT MODE</h2>
@@ -282,7 +291,7 @@ export default function Urgent() {
           Read Message
         </button>
       </div>
-      <div>{input}</div>
+      <div>{ showInput ? INPUT_HTML : null }</div>
       {showOutput &&
         (destroyedMessage === "Message destroyed!" ? (
           <h5 className="text-center mt-5">
@@ -310,6 +319,7 @@ export default function Urgent() {
             >
               Done and Destroy
             </button>
+
           </div>
         ))}
     </div>
