@@ -296,7 +296,7 @@ export default function Archival() {
             Message Destroyed! (well, moved to the "Read Messages" table :-D)
           </h5>
         ) : (
-          <div>
+          <div className='text-center'>
             <div className="m-5">
               <h5>Agent ID: {responseMessage.agent_id}</h5>
               <h5>Structure ID: {responseMessage.structure_id}</h5>
